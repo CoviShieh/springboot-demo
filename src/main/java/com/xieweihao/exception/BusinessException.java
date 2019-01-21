@@ -1,4 +1,4 @@
-package com.xieweihao.jpa;
+package com.xieweihao.exception;
 
 public class BusinessException extends Exception{
 

@@ -9,34 +9,42 @@ import org.springframework.stereotype.Repository;
 import com.xieweihao.entity.Time;
 import com.xieweihao.jpa.BaseDaoImpl;
 import com.xieweihao.jpa.Page;
+import com.xieweihao.utils.StringUtils;
 
 @Repository
 public class TimeDaoImpl extends BaseDaoImpl<Time, Long>{
 
-	public Page<Map<String,Object>> searchUserByUserName(String userName,Integer page,Integer pageSize){
+	public Page<Map<String,Object>> searchDateByUserIdAndDatetime(String userId,String date,Integer page,Integer pageSize){
 		
 		List<Object> list = new ArrayList<Object>();
-		StringBuilder sqlBuild = new StringBuilder("SELECT u.* FROM user u "
-				+"JOIN user_x_event ue ON ue.user_id = u.id "
-				+"JOIN event e ON e.id = ue.event_id "
+		StringBuilder sqlBuild = new StringBuilder("SELECT d.* FROM date d "
+				+"JOIN date_x_event de ON de.date_id = d.id "
+				+"JOIN event e ON e.id = de.event_id "
 				+"JOIN event_x_time et ON et.event_id = e.id "
 				+"JOIN time t ON t.id = et.time_id "
 				+"WHERE 1=1 ");
-		StringBuilder sqlCount = new StringBuilder("SELECT 1 FROM user u "
-				+"JOIN user_x_event ue ON ue.user_id = u.id "
-				+"JOIN event e ON e.id = ue.event_id "
+		StringBuilder sqlCount = new StringBuilder("SELECT 1 FROM date d "
+				+"JOIN date_x_event de ON de.date_id = d.id "
+				+"JOIN event e ON e.id = de.event_id "
 				+"JOIN event_x_time et ON et.event_id = e.id "
 				+"JOIN time t ON t.id = et.time_id "
 				+"WHERE 1=1 ");
-		if(userName == null){
+		if(userId == null){
 			list.add(0);
 		}else{
-			sqlBuild.append(" and username = ? ");
-			sqlCount.append(" and username = ? ");
-			list.add(userName);
+			sqlBuild.append(" and d.user_id = ? ");
+			sqlCount.append(" and d.user_id = ? ");
+			list.add(userId);
 		}
-		sqlBuild.append("GROUP BY u.id ORDER BY u.id DESC ");
-		sqlCount.append("GROUP BY u.id ORDER BY u.id DESC ");
+		
+		if(StringUtils.isNotEmpty(date)){
+			sqlBuild.append("AND (d.datetime = ?) ");
+			sqlCount.append("AND (d.datetime = ?) ");
+			list.add(date);
+		}
+		
+		sqlBuild.append("GROUP BY d.id ORDER BY d.id DESC ");
+		sqlCount.append("GROUP BY d.id ORDER BY d.id DESC ");
 		return this.findPageMapList(new Page<Map<String, Object>>(page, pageSize), sqlBuild.toString(), sqlCount.toString(), list.toArray());
 	}
 	
