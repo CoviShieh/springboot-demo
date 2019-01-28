@@ -78,7 +78,7 @@ public class TimeController {
 //					 .pushData();
 			 
 //			 return JsonUtil.getInstance().putData("ret", 1).putData("msg", "查询成功").putData("data", jarray).pushData();
-			return Result.ok(1, "查询成功").put("data", jarray);
+			return Result.ok("查询成功").put("data", jarray);
 			 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -130,7 +130,7 @@ public class TimeController {
 		}
 		try{
 			timeService.deleteDatetime(datetime,userId);
-			return Result.ok(1, "删除成功");
+			return Result.ok("删除成功");
 		}catch(Exception e){
 			return Result.error(-1, "删除失败").put("data", e.getMessage());
 		}
@@ -155,7 +155,7 @@ public class TimeController {
 		}
 		try{
 			timeService.deleteEventAndTime(xid,dateId);
-			return Result.ok(1, "删除成功");
+			return Result.ok("删除成功");
 		}catch(Exception e){
 			return Result.error(-1, "删除失败").put("data", e.getMessage());
 		}

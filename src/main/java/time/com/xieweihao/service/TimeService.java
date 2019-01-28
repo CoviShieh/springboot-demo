@@ -15,7 +15,6 @@ import com.xieweihao.dao.EventDao;
 import com.xieweihao.dao.EventXTimeDao;
 import com.xieweihao.dao.TimeDao;
 import com.xieweihao.dao.TimeDaoImpl;
-import com.xieweihao.dao.UserDao;
 import com.xieweihao.entity.Date;
 import com.xieweihao.entity.DateXEvent;
 import com.xieweihao.entity.Event;
@@ -31,7 +30,6 @@ public class TimeService {
 	@Autowired TimeDaoImpl timeDaoImpl;
 	@Autowired TimeDao timeDao;
 	@Autowired EventDao eventDao;
-	@Autowired UserDao userDao;
 	@Autowired DateDao dateDao;
 	@Autowired EventXTimeDao eventXTimeDao;
 	@Autowired DateXEventDao dateXEventDao;
@@ -90,7 +88,7 @@ public class TimeService {
 		//保存全部事件
 		saveOrUpdateEvents(date,events);
 		
-		return Result.ok(1, "设置成功");
+		return Result.ok("设置成功");
 	}
 
 	private void saveOrUpdateEvents(Date date, JSONArray events) throws BusinessException {
